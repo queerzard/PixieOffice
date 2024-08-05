@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public abstract class AbstractGameObject {
 
@@ -17,16 +16,16 @@ public abstract class AbstractGameObject {
     private int posY;
     @Getter
     @Setter
-    private BufferedImage texture;
+    private Texture texture;
 
-    public AbstractGameObject(BufferedImage texture, int defX, int defY) {
+    public AbstractGameObject(Texture texture, int defX, int defY) {
         this.posX = defX;
         this.posY = defY;
         this.texture = texture;
     }
 
     public void draw(Graphics2D graphics) {
-        graphics.drawImage(texture, posX, posY,
+        graphics.drawImage(texture.getTexture(), posX, posY,
                 PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize(),
                 PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize(), null);
     }

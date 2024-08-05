@@ -2,10 +2,9 @@ package com.github.queerzard.pixieoffice.game.entity.player;
 
 import com.github.queerzard.pixieoffice.PixieOffice;
 import com.github.queerzard.pixieoffice.game.entity.GameEntity;
+import com.github.queerzard.pixieoffice.game.object.Texture;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.awt.image.BufferedImage;
 
 public class PlayerEntity extends GameEntity {
 
@@ -13,7 +12,7 @@ public class PlayerEntity extends GameEntity {
     @Setter
     private String name;
 
-    public PlayerEntity(BufferedImage texture, String name, int health, int posX, int posY) {
+    public PlayerEntity(Texture texture, String name, int health, int posX, int posY) {
         super(texture, health, 4, posX, posY);
         this.name = name;
     }

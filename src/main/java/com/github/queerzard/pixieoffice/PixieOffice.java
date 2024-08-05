@@ -4,6 +4,7 @@ import com.github.queerzard.pixieoffice.config.GameConfig;
 import com.github.queerzard.pixieoffice.game.GameWindow;
 import com.github.queerzard.pixieoffice.game.entity.player.PlayerEntity;
 import com.github.queerzard.pixieoffice.game.loop.GameLoop;
+import com.github.queerzard.pixieoffice.game.object.Texture;
 import com.github.queerzard.pixieoffice.utils.ControlsHandler;
 import com.github.sebyplays.logmanager.utils.Logger;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class PixieOffice {
     @Getter
     @Setter
     private ControlsHandler controlsHandler = new ControlsHandler();
-    ;
+
 
     @Getter
     @Setter
@@ -60,7 +61,9 @@ public class PixieOffice {
         this.gameFrame.setLocationRelativeTo(null);
         this.gameFrame.setVisible(true);
 
-        this.gamePlayer = new PlayerEntity(ImageIO.read(getClass().getResourceAsStream("/assets/JasSprite.png")), "Jasmin", 10, 100, 100);
+        this.gamePlayer = new PlayerEntity(
+                new Texture(ImageIO.read(getClass().getResourceAsStream("/assets/JasSprite.png")), null)
+                , "Jasmin", 10, 100, 100);
 
         initLoop();
     }
