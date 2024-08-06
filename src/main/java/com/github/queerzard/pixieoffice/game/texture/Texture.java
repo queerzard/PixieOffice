@@ -1,24 +1,24 @@
-package com.github.queerzard.pixieoffice.game.object;
+package com.github.queerzard.pixieoffice.game.texture;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.util.HashMap;
 
 public class Texture {
 
     @Getter
     @Setter
-    private BufferedImage texture;
+    private Image texture;
     @Getter
     @Setter
-    private BufferedImage defaultTexture;
+    private Image defaultTexture;
     @Getter
     @Setter
-    private HashMap<String, BufferedImage> textureCache;
+    private HashMap<String, Image> textureCache;
 
-    public Texture(BufferedImage defaultTexture, HashMap<String, BufferedImage> textures) {
+    public Texture(Image defaultTexture, HashMap<String, Image> textures) {
         this.defaultTexture = defaultTexture;
         this.texture = defaultTexture;
         this.textureCache = textures;

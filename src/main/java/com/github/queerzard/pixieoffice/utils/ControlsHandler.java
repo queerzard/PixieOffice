@@ -9,6 +9,8 @@ public class ControlsHandler implements KeyListener {
 
     @Getter
     private boolean upPressed, downPressed, rightPressed, leftPressed;
+    @Getter
+    private boolean upLast, downLast, rightLast, leftLast;
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -33,15 +35,31 @@ public class ControlsHandler implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 this.upPressed = false;
+                this.upLast = true;
+                this.downLast = false;
+                this.rightLast = false;
+                this.leftLast = false;
                 break;
             case KeyEvent.VK_A:
                 this.leftPressed = false;
+                this.upLast = false;
+                this.downLast = false;
+                this.rightLast = false;
+                this.leftLast = true;
                 break;
             case KeyEvent.VK_S:
                 this.downPressed = false;
+                this.upLast = false;
+                this.downLast = true;
+                this.rightLast = false;
+                this.leftLast = false;
                 break;
             case KeyEvent.VK_D:
                 this.rightPressed = false;
+                this.upLast = false;
+                this.downLast = false;
+                this.rightLast = true;
+                this.leftLast = false;
                 break;
         }
     }

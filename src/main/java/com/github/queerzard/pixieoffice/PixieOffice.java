@@ -4,14 +4,15 @@ import com.github.queerzard.pixieoffice.config.GameConfig;
 import com.github.queerzard.pixieoffice.game.GameWindow;
 import com.github.queerzard.pixieoffice.game.entity.player.PlayerEntity;
 import com.github.queerzard.pixieoffice.game.loop.GameLoop;
-import com.github.queerzard.pixieoffice.game.object.Texture;
+import com.github.queerzard.pixieoffice.game.object.map.Map;
+import com.github.queerzard.pixieoffice.game.texture.ETextures;
+import com.github.queerzard.pixieoffice.game.texture.TextureCache;
 import com.github.queerzard.pixieoffice.utils.ControlsHandler;
 import com.github.sebyplays.logmanager.utils.Logger;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
@@ -35,8 +36,13 @@ public class PixieOffice {
     private PlayerEntity gamePlayer;
     @Getter
     @Setter
+    private Map map;
+    @Getter
+    @Setter
     private ControlsHandler controlsHandler = new ControlsHandler();
-
+    @Getter
+    @Setter
+    private TextureCache textureCache;
 
     @Getter
     @Setter
@@ -55,16 +61,22 @@ public class PixieOffice {
         this.gameFrame.setResizable(true);
         this.gameFrame.setTitle("PixieOffice");
         this.controlsHandler = new ControlsHandler();
+        this.textureCache = new TextureCache();
         this.gameWindow = new GameWindow(this.controlsHandler);
         this.gameFrame.add(this.gameWindow);
         this.gameFrame.pack();
         this.gameFrame.setLocationRelativeTo(null);
         this.gameFrame.setVisible(true);
 
-        this.gamePlayer = new PlayerEntity(
-                new Texture(ImageIO.read(getClass().getResourceAsStream("/assets/JasSprite.png")), null)
-                , "Jasmin", 10, 100, 100);
 
+/*        new AsyncExecutor(TimeUnit.SECONDS.toMillis(2)) {
+            @Override
+            public Object runAsync() {
+                PixieOffice.getPixieOffice().setMap(Map.loadMap("/assets/maps/map1.txt"));
+                return map;
+            }
+        };*/
+        this.gamePlayer = new PlayerEntity(this.textureCache.getTexture(ETextures.JASMIN), "Jasmin", 10, 2, 100, 100);
         initLoop();
     }
 

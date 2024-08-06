@@ -1,7 +1,7 @@
 package com.github.queerzard.pixieoffice.game.entity;
 
 import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
-import com.github.queerzard.pixieoffice.game.object.Texture;
+import com.github.queerzard.pixieoffice.game.texture.Texture;
 import lombok.Getter;
 import lombok.Setter;
 
