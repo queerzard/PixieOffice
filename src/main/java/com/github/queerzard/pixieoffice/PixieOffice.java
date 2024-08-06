@@ -58,7 +58,7 @@ public class PixieOffice {
 
         this.gameFrame = new JFrame();
         this.gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.gameFrame.setResizable(true);
+        this.gameFrame.setResizable(false);
         this.gameFrame.setTitle("PixieOffice");
         this.controlsHandler = new ControlsHandler();
         this.textureCache = new TextureCache();

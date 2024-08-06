@@ -44,25 +44,29 @@ public class PlayerEntity extends GameEntity {
 
         if (PixieOffice.getPixieOffice().getControlsHandler().isUpPressed()) {
             getTexture().setActive("up");
-            setPosY(getPosY() - getSpeed());
+            if ((getPosY() - getSpeed() > 0))
+                setPosY(getPosY() - getSpeed());
             return;
         }
 
         if (PixieOffice.getPixieOffice().getControlsHandler().isDownPressed()) {
             getTexture().setActive("down");
-            setPosY(getPosY() + getSpeed());
+            if (!(getPosY() + PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize() + getSpeed() > PixieOffice.getPixieOffice().getGameWindow().getDisplayHeight()))
+                setPosY(getPosY() + getSpeed());
             return;
         }
 
         if (PixieOffice.getPixieOffice().getControlsHandler().isLeftPressed()) {
             getTexture().setActive("left");
-            setPosX(getPosX() - getSpeed());
+            if ((getPosX() - getSpeed() > 0))
+                setPosX(getPosX() - getSpeed());
             return;
         }
 
         if (PixieOffice.getPixieOffice().getControlsHandler().isRightPressed()) {
             getTexture().setActive("right");
-            setPosX(getPosX() + getSpeed());
+            if (!(getPosX() + PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize() + getSpeed() > PixieOffice.getPixieOffice().getGameWindow().getDisplayWidth()))
+                setPosX(getPosX() + getSpeed());
             return;
         }
 
