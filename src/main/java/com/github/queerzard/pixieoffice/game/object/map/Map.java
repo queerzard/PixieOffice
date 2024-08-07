@@ -1,6 +1,7 @@
 package com.github.queerzard.pixieoffice.game.object.map;
 
 import com.github.queerzard.pixieoffice.PixieOffice;
+import com.github.queerzard.pixieoffice.game.RenderingQueue;
 import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -38,7 +39,7 @@ public class Map {
                 if (!temp.matches("^[0-9].*"))
                     continue;
                 this.gameObjects.add(AbstractGameObject.getObject(Integer.parseInt(temp))
-                        .getDeclaredConstructor(int.class, int.class).newInstance(x, y));
+                        .getDeclaredConstructor(int.class, int.class, int.class).newInstance(x, y, 0));
                 x += PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize();
             }
             y += PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize();
@@ -61,9 +62,9 @@ public class Map {
     public void save() {
     }
 
-    public void draw(Graphics2D graphics2D) {
+    public void queueDrawing(Graphics2D graphics2D) {
         for (AbstractGameObject abstractGameObject : (ArrayList<AbstractGameObject>) gameObjects.clone())
-            abstractGameObject.draw(graphics2D);
+            RenderingQueue.addGameObject(abstractGameObject);
 
     }
 

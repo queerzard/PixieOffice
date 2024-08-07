@@ -1,7 +1,10 @@
 package com.github.queerzard.pixieoffice.game.object;
 
 import com.github.queerzard.pixieoffice.PixieOffice;
+import com.github.queerzard.pixieoffice.game.entity.GameEntity;
+import com.github.queerzard.pixieoffice.game.event.entity.EntityMovementEvent;
 import com.github.queerzard.pixieoffice.game.texture.Texture;
+import com.github.sebyplays.jevent.JEvent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,18 +14,22 @@ import java.util.Arrays;
 public abstract class AbstractGameObject {
 
     @Getter
-    @Setter
     private int posX;
     @Getter
-    @Setter
     private int posY;
+
+    @Getter
+    @Setter
+    private int zIndex;
+
     @Getter
     @Setter
     private Texture texture;
 
-    public AbstractGameObject(Texture texture, int defX, int defY) {
+    public AbstractGameObject(Texture texture, int defX, int defY, int zIndex) {
         this.posX = defX;
         this.posY = defY;
+        this.zIndex = zIndex;
         this.texture = texture;
     }
 
@@ -39,5 +46,24 @@ public abstract class AbstractGameObject {
         return objects.abstractGameObject;
     }
 
+
+    public void setPosX(int x) {
+        if (!(this instanceof GameEntity)) {
+            this.posX = x;
+            return;
+        }
+        if (!new JEvent(new EntityMovementEvent((GameEntity) this)).callEvent().getEvent().isCancelled())
+            this.posX = x;
+    }
+
+    public void setPosY(int y) {
+        if (!(this instanceof GameEntity)) {
+            this.posY = y;
+            return;
+        }
+        if (!new JEvent(new EntityMovementEvent((GameEntity) this)).callEvent().getEvent().isCancelled())
+            this.posY = y;
+
+    }
 
 }

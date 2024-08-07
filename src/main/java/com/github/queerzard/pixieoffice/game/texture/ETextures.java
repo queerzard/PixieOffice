@@ -2,7 +2,6 @@ package com.github.queerzard.pixieoffice.game.texture;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -22,15 +21,22 @@ public enum ETextures {
             new Object() {
                 Texture evaluate() {
                     try {
-                        return new Texture(new ImageIcon(getClass().getResource("/assets/characters/Jasmin_Idle.gif")).getImage(),
+                        return new Texture(new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_down_idle.gif")).getImage(),
                                 new HashMap<>() {{
-                                    put("up", ImageIO.read(getClass().getResourceAsStream("/assets/characters/DanielSprite.png")));
-                                    put("down_idle", new ImageIcon(getClass().getResource("/assets/characters/Jasmin_Idle.gif")).getImage());
-                                    put("down", new ImageIcon(getClass().getResource("/assets/characters/Jasmin_down.gif")).getImage());
-                                    put("right", ImageIO.read(getClass().getResourceAsStream("/assets/characters/JasSprite.png")));
-                                    put("left", ImageIO.read(getClass().getResourceAsStream("/assets/characters/JasSprite.png")));
+                                    put("up", new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_up.gif")).getImage());
+                                    put("up_idle", new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_up_idle.gif")).getImage());
+                                    put("down", new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_down.gif")).getImage());
+                                    put("down_idle", new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_down_idle.gif")).getImage());
+                                    put("right", new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_right.gif")).getImage());
+                                    put("right_idle", new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_right_idle.gif")).getImage());
+                                    put("left", new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_left.gif")).getImage());
+                                    put("left_idle", new ImageIcon(getClass().getResource("/assets/characters/jasmin/jasmin_left_idle.gif")).getImage());
+                                    /* put("down_idle", new ImageIcon(getClass().getResource("/assets/characters/jasmin/Jasmin_Idle.gif")).getImage());*/
+                                   /* put("down", new ImageIcon(getClass().getResource("/assets/characters/jasmin/Jasmin_down.gif")).getImage());
+                                    put("right", ImageIO.read(getClass().getResourceAsStream("/assets/characters/jasmin/JasSprite.png")));
+                                    put("left", ImageIO.read(getClass().getResourceAsStream("/assets/characters/jasmin/JasSprite.png")));*/
                                 }});
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }

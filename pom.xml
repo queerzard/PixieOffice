@@ -31,6 +31,11 @@
             <artifactId>Modules4J</artifactId>
             <version>9e16181650</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.queerzard</groupId>
+            <artifactId>JEvent</artifactId>
+            <version>1.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>

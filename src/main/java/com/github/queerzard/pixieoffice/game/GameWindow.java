@@ -1,8 +1,10 @@
 package com.github.queerzard.pixieoffice.game;
 
-import com.github.queerzard.pixieoffice.PixieOffice;
-import com.github.queerzard.pixieoffice.game.object.map.Map;
+import com.github.queerzard.pixieoffice.game.event.render.PreDrawingQueue;
+import com.github.queerzard.pixieoffice.game.event.render.PrePaintingRender;
+import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
 import com.github.queerzard.pixieoffice.utils.ControlsHandler;
+import com.github.sebyplays.jevent.JEvent;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -48,15 +50,23 @@ public class GameWindow extends JPanel {
         super.paintComponent(graphics);
 
         Graphics2D graphics2D = (Graphics2D) graphics;
-        if (PixieOffice.getPixieOffice().getMap() != null) {
+
+        new JEvent(new PrePaintingRender(graphics2D)).callEvent();
+
+
+        for (AbstractGameObject abstractGameObject : RenderingQueue.getQueue())
+
+            if (!new JEvent(new PreDrawingQueue(abstractGameObject, graphics2D)).callEvent().getEvent().isCancelled())
+                abstractGameObject.draw(graphics2D);
+
+/*        if (PixieOffice.getPixieOffice().getMap() != null) {
             PixieOffice.getPixieOffice().getMap().draw(graphics2D);
         } else {
             PixieOffice.getPixieOffice().setMap(Map.loadMap("/assets/maps/map1.txt"));
-        }
+        }*/
 
 
 
-        PixieOffice.getPixieOffice().getGamePlayer().draw(graphics2D);
         graphics2D.dispose();
     }
 

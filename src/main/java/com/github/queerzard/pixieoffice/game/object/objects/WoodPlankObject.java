@@ -5,13 +5,20 @@ import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
 import com.github.queerzard.pixieoffice.game.object.Collidable;
 import com.github.queerzard.pixieoffice.game.texture.ETextures;
 
+import java.awt.*;
+
 public class WoodPlankObject extends AbstractGameObject implements Collidable {
-    public WoodPlankObject(int defX, int defY) {
-        super(PixieOffice.getPixieOffice().getTextureCache().getTexture(ETextures.WOOD_PLANK), defX, defY);
+    public WoodPlankObject(int defX, int defY, int z) {
+        super(PixieOffice.getPixieOffice().getTextureCache().getTexture(ETextures.WOOD_PLANK), defX, defY, z);
     }
 
     @Override
     public boolean isCollidable() {
         return true;
+    }
+
+    @Override
+    public Rectangle solidArea() {
+        return null;
     }
 }
