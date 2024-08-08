@@ -12,7 +12,8 @@ public class PaintingListener implements Listener {
     public void onPaint(PrePaintingRender prePaintingRender) {
         if (PixieOffice.getPixieOffice().getMap() != null)
             PixieOffice.getPixieOffice().getMap().queueDrawing(prePaintingRender.getGraphics());
-        RenderingQueue.addGameObject(PixieOffice.getPixieOffice().getGamePlayer());
+        if (PixieOffice.getPixieOffice().getGamePlayer() != null)
+            RenderingQueue.addGameObject(PixieOffice.getPixieOffice().getGamePlayer());
     }
 
 }

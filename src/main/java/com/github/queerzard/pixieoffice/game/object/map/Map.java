@@ -3,6 +3,7 @@ package com.github.queerzard.pixieoffice.game.object.map;
 import com.github.queerzard.pixieoffice.PixieOffice;
 import com.github.queerzard.pixieoffice.game.RenderingQueue;
 import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
+import com.github.queerzard.pixieoffice.game.object.objects.SpawnObject;
 import com.github.queerzard.pixieoffice.utils.Utils;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -89,9 +90,14 @@ public class Map implements Serializable {
                     int zIndex = Integer.parseInt(blockMatcher.group(2));
 
                     // Instantiate the game object with x, y, and z
-                    gameObjects.add(AbstractGameObject.getObject(blockId)
+                    AbstractGameObject ago;
+                    gameObjects.add(ago = AbstractGameObject.getObject(blockId)
                             .getDeclaredConstructor(int.class, int.class, int.class)
                             .newInstance(x, y, zIndex));
+                    if (ago instanceof SpawnObject) {
+                        this.spawnpoint[0] = x;
+                        this.spawnpoint[1] = y;
+                    }
                 }
             }
         }
