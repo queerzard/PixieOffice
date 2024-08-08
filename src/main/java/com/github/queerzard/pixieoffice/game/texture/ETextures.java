@@ -72,6 +72,16 @@ public enum ETextures {
         }
     }.evaluate()),
 
+    EMPTY(5, new Object() {
+        Texture evaluate() {
+            try {
+                return new Texture(ImageIO.read(getClass().getResourceAsStream("/assets/tiles/empty.png")), null);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }.evaluate()),
+
     ;
 
     public Texture resource;

@@ -13,6 +13,7 @@ import com.github.queerzard.pixieoffice.game.texture.ETextures;
 import com.github.queerzard.pixieoffice.game.texture.TextureCache;
 import com.github.queerzard.pixieoffice.utils.AsyncExecutor;
 import com.github.queerzard.pixieoffice.utils.ControlsHandler;
+import com.github.queerzard.pixieoffice.utils.IAsyncTask;
 import com.github.sebyplays.jevent.JEvent;
 import com.github.sebyplays.logmanager.utils.Logger;
 import lombok.Getter;
@@ -88,8 +89,14 @@ public class PixieOffice {
         };
         setMap(Map.loadMap("/assets/maps/map1.txt"));
 
-
-        this.gamePlayer = new PlayerEntity(this.textureCache.getTexture(ETextures.JASMIN), "Jasmin", 10, 2, 100, 100, 100);
+        AsyncExecutor.task(new IAsyncTask() {
+            @Override
+            public Object runAsync() {
+                while (map == null) {
+                }
+                return gamePlayer = new PlayerEntity(textureCache.getTexture(ETextures.JASMIN), "Jasmin", 10, 2, 100, 100, 100);
+            }
+        });
         initLoop();
     }
 

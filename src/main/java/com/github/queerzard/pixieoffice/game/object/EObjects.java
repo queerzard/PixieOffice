@@ -11,6 +11,7 @@ public enum EObjects {
     WALL(2, WallObject.class),
     GRASS(3, GrassObject.class),
     WOOD_PLANK(4, WoodPlankObject.class),
+    SPAWN(5, WoodPlankObject.class),
     ;
 
     public int id;

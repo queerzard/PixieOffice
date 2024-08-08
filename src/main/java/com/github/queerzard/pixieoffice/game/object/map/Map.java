@@ -3,26 +3,42 @@ package com.github.queerzard.pixieoffice.game.object.map;
 import com.github.queerzard.pixieoffice.PixieOffice;
 import com.github.queerzard.pixieoffice.game.RenderingQueue;
 import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
+import com.github.queerzard.pixieoffice.utils.Utils;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class Map {
+public class Map implements Serializable {
 
     @Getter
     private static HashMap<String, Map> mapCache = new HashMap<>();
 
     @Getter
     private String mapResource;
+    @Getter
+    private UUID uuid;
+
+    @Getter
+    private int[] spawnpoint = new int[2];
 
     @Getter
     private ArrayList<AbstractGameObject> gameObjects = new ArrayList<>();
 
     private Map(String resourcePath) {
+        this.mapResource = resourcePath;
+        this.uuid = UUID.randomUUID();
         initMap(resourcePath);
     }
 
@@ -35,16 +51,13 @@ public class Map {
         for (String row : rows) {
             int x = 0;
             for (String column : row.split(" ")) {
-                String temp = column.trim().replaceAll("[^\\d.]", "");
-                if (!temp.matches("^[0-9].*"))
-                    continue;
-                this.gameObjects.add(AbstractGameObject.getObject(Integer.parseInt(temp))
-                        .getDeclaredConstructor(int.class, int.class, int.class).newInstance(x, y, 0));
+                parseCells(column, x, y);
                 x += PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize();
             }
             y += PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize();
         }
     }
+
 
     public static Map loadMap(String resourcePath) {
         if (!mapCache.containsKey(resourcePath))
@@ -52,14 +65,58 @@ public class Map {
         return mapCache.get(resourcePath);
     }
 
-    public void placeObjectAt(Class<? extends AbstractGameObject> abstractGameObject, int column, int row) {
+    @SneakyThrows
+    public static Map loadMap(File file) {
+        return (Map) Utils.parseObject(Files.readAllBytes(file.toPath()));
     }
 
-    public AbstractGameObject getObjectAt(int column, int row) {
+    private void parseCells(String column, int x, int y) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        // Pattern to match the content inside the brackets
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        Matcher matcher = pattern.matcher(column);
+
+        if (matcher.find()) {
+            String blocks = matcher.group(1); // Get the content inside the brackets
+            String[] blockDefinitions = blocks.split(",\\s*"); // Split by comma
+
+            for (String blockDefinition : blockDefinitions) {
+                // Match the block ID and z-index
+                Pattern blockPattern = Pattern.compile("(\\d+)\\((\\d+)\\)");
+                Matcher blockMatcher = blockPattern.matcher(blockDefinition);
+
+                if (blockMatcher.find()) {
+                    int blockId = Integer.parseInt(blockMatcher.group(1));
+                    int zIndex = Integer.parseInt(blockMatcher.group(2));
+
+                    // Instantiate the game object with x, y, and z
+                    gameObjects.add(AbstractGameObject.getObject(blockId)
+                            .getDeclaredConstructor(int.class, int.class, int.class)
+                            .newInstance(x, y, zIndex));
+                }
+            }
+        }
+    }
+
+    public void placeObjectAt(Class<? extends AbstractGameObject> abstractGameObject, int column, int row, int z) {
+
+    }
+
+    public AbstractGameObject getObjectAt(int column, int row, int z) {
+
         return null;
     }
 
+    @SneakyThrows
     public void save() {
+        save(null);
+    }
+
+    public void save(String name) throws IOException {
+        File file = new File(System.getProperty("user.dir") + "/saves/",
+                (name != null ? name : uuid.toString()) + ".bin");
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+        Files.write(file.toPath(), Utils.objectToBytes(this));
     }
 
     public void queueDrawing(Graphics2D graphics2D) {

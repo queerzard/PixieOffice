@@ -17,6 +17,12 @@ public class GameEntity extends AbstractGameObject implements Collidable {
     @Getter
     @Setter
     private int speed;
+    @Getter
+    @Setter
+    private int worldX = 100;
+    @Getter
+    @Setter
+    private int worldY = 100;
 
     @Getter
     @Setter
@@ -35,6 +41,46 @@ public class GameEntity extends AbstractGameObject implements Collidable {
         this.health = health;
         this.speed = speed;
         bounds = new Rectangle(posX, posY, 48, 48);
+    }
+
+    public void up() {
+        getTexture().setActive("up");
+        facing = EDirection.NORTH;
+        setWorldY(worldX - speed);
+    }
+
+    public void down() {
+        getTexture().setActive("down");
+        facing = EDirection.SOUTH;
+        setWorldY(worldY + speed);
+    }
+
+    public void left() {
+        getTexture().setActive("left");
+        facing = EDirection.WEST;
+        setWorldX(worldX - speed);
+    }
+
+    public void right() {
+        getTexture().setActive("right");
+        facing = EDirection.EAST;
+        setWorldX(worldX + speed);
+    }
+
+    public void upIdle() {
+        getTexture().setActive("up_idle");
+    }
+
+    public void downIdle() {
+        getTexture().setActive("down_idle");
+    }
+
+    public void leftIdle() {
+        getTexture().setActive("left_idle");
+    }
+
+    public void rightIdle() {
+        getTexture().setActive("right_idle");
     }
 
     @Override

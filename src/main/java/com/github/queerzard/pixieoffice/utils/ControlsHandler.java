@@ -1,6 +1,10 @@
 package com.github.queerzard.pixieoffice.utils;
 
+import com.github.queerzard.pixieoffice.game.event.entity.player.PlayerKeyPressEvent;
+import com.github.queerzard.pixieoffice.game.event.entity.player.PlayerKeyReleaseEvent;
+import com.github.sebyplays.jevent.JEvent;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,8 +16,17 @@ public class ControlsHandler implements KeyListener {
     @Getter
     private boolean upLast, downLast, rightLast, leftLast;
 
+    @Getter
+    @Setter
+    private boolean impair = false;
+
     @Override
     public void keyPressed(KeyEvent e) {
+
+        new JEvent(new PlayerKeyPressEvent(e, impair)).callEvent();
+
+        if (impair)
+            return;
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 this.upPressed = true;
@@ -32,6 +45,10 @@ public class ControlsHandler implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        new JEvent(new PlayerKeyReleaseEvent(e, impair)).callEvent();
+
+        if (impair)
+            return;
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 this.upPressed = false;
