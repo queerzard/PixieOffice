@@ -1,9 +1,7 @@
 package com.github.queerzard.pixieoffice.game.object.map;
 
 import com.github.queerzard.pixieoffice.PixieOffice;
-import com.github.queerzard.pixieoffice.game.GameWindow;
 import com.github.queerzard.pixieoffice.game.RenderingQueue;
-import com.github.queerzard.pixieoffice.game.entity.player.PlayerEntity;
 import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
 import com.github.queerzard.pixieoffice.game.object.objects.SpawnObject;
 import com.github.queerzard.pixieoffice.utils.Utils;
@@ -105,11 +103,37 @@ public class Map implements Serializable {
         }
     }
 
-    public void placeObjectAt(Class<? extends AbstractGameObject> abstractGameObject, int column, int row, int z) {
-
+    public void placeObjectAt(AbstractGameObject abstractGameObject, int column, int row, int z) {
+        int tileSize = PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize();
+        abstractGameObject.setPosX(column * tileSize);
+        abstractGameObject.setPosY(row * tileSize);
+        abstractGameObject.setZIndex(z);
+        this.gameObjects.add(abstractGameObject);
     }
 
-    public AbstractGameObject getObjectAt(int column, int row, int z) {
+    public AbstractGameObject getObjectAt(int x, int y, int z) {
+        int tileSize = PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize();
+
+        // Calculate the tile coordinates
+        int tileX = x / tileSize;
+        int tileY = y / tileSize;
+
+        // Iterate over all game objects
+        for (AbstractGameObject obj : gameObjects) {
+            // Check if the object's zIndex matches and it's within the tile bounds
+            if (obj.getZIndex() == z) {
+                int objTileX = obj.getPosX() / tileSize;
+                int objTileY = obj.getPosY() / tileSize;
+                int objTileWidth = tileSize;
+                int objTileHeight = tileSize;
+
+                // Check if the object's tile area contains the given tile coordinates
+                if (objTileX <= tileX && tileX < objTileX + objTileWidth / tileSize &&
+                        objTileY <= tileY && tileY < objTileY + objTileHeight / tileSize) {
+                    return obj;
+                }
+            }
+        }
 
         return null;
     }
@@ -131,61 +155,6 @@ public class Map implements Serializable {
         for (AbstractGameObject abstractGameObject : (ArrayList<AbstractGameObject>) gameObjects.clone())
             RenderingQueue.addGameObject(abstractGameObject);
 
-    }
-
-    public void queueDrawing2(Graphics2D graphics2D) {
-        GameWindow gameWindow = PixieOffice.getPixieOffice().getGameWindow();
-        int tileSize = gameWindow.getRescaledTileSize();
-
-        // Assuming you have a player object with posX, posY (world coordinates) properties
-        PlayerEntity player = PixieOffice.getPixieOffice().getGamePlayer();
-        int playerWorldX = player.getPosX();
-        int playerWorldY = player.getPosY();
-        int playerScreenX = gameWindow.getDisplayWidth() / 2 - tileSize / 2;
-        int playerScreenY = gameWindow.getDisplayHeight() / 2 - tileSize / 2;
-
-        for (AbstractGameObject abstractGameObject : (ArrayList<AbstractGameObject>) gameObjects.clone()) {
-            int worldX = abstractGameObject.getPosX();
-            int worldY = abstractGameObject.getPosY();
-
-            // Check if the tile is within the visible screen area
-            if (worldX + tileSize > playerWorldX - playerScreenX &&
-                    worldX - tileSize < playerWorldX + playerScreenX &&
-                    worldY + tileSize > playerWorldY - playerScreenY &&
-                    worldY - tileSize < playerWorldY + playerScreenY) {
-
-                // Add to rendering queue
-                RenderingQueue.addGameObject(abstractGameObject);
-            }
-        }
-    }
-
-    public void queueDrawing3(Graphics2D graphics2D) {
-        GameWindow gameWindow = PixieOffice.getPixieOffice().getGameWindow();
-        PlayerEntity player = PixieOffice.getPixieOffice().getGamePlayer();
-        int tileSize = gameWindow.getRescaledTileSize();
-
-        // Calculate the screen bounds
-        int screenLeft = player.getPosX() - gameWindow.getDisplayWidth() / 2;
-        int screenTop = player.getPosY() - gameWindow.getDisplayHeight() / 2;
-        int screenRight = screenLeft + gameWindow.getDisplayWidth();
-        int screenBottom = screenTop + gameWindow.getDisplayHeight();
-
-
-        // Iterate through game objects and check if they are within the screen bounds
-        for (AbstractGameObject obj : gameObjects) {
-            int objX = obj.getPosX();
-            int objY = obj.getPosY();
-
-            if (objX + tileSize > screenLeft &&
-                    objX < screenRight &&
-                    objY + tileSize > screenTop &&
-                    objY < screenBottom) {
-
-                // Add to rendering queue
-                RenderingQueue.addGameObject(obj);
-            }
-        }
     }
 
 }

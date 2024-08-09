@@ -9,6 +9,7 @@ public enum EObjects {
     GRASS(3, GrassObject.class),
     WOOD_PLANK(4, WoodPlankObject.class),
     SPAWN(5, SpawnObject.class),
+    BARRIER(6, BarrierObject.class),
     ;
 
     public int id;
