@@ -1,4 +1,4 @@
-package com.github.queerzard.pixieoffice.game.event.entity.player;
+package com.github.queerzard.pixieoffice.game.event.entity.player.input;
 
 import com.github.sebyplays.jevent.api.Event;
 import lombok.Getter;
@@ -7,10 +7,8 @@ import java.awt.event.KeyEvent;
 
 public class PlayerKeyPressEvent extends Event {
 
-    @Getter
-    private KeyEvent keyEvent;
-    @Getter
-    private boolean impaired;
+    @Getter private KeyEvent keyEvent;
+    @Getter private boolean impaired;
 
     public PlayerKeyPressEvent() {
     }

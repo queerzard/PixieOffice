@@ -8,10 +8,8 @@ import java.awt.*;
 
 public class PreDrawingQueue extends Event {
 
-    @Getter
-    private AbstractGameObject gameObject;
-    @Getter
-    private Graphics2D graphics;
+    @Getter private AbstractGameObject gameObject;
+    @Getter private Graphics2D graphics;
 
     public PreDrawingQueue() {
     }

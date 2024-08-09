@@ -22,20 +22,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Map implements Serializable {
+    @Getter private static HashMap<String, Map> mapCache = new HashMap<>();
 
-    @Getter
-    private static HashMap<String, Map> mapCache = new HashMap<>();
+    @Getter private String mapResource;
+    @Getter private UUID uuid;
 
-    @Getter
-    private String mapResource;
-    @Getter
-    private UUID uuid;
+    @Getter private int[] spawnpoint = new int[2];
 
-    @Getter
-    private int[] spawnpoint = new int[2];
-
-    @Getter
-    private ArrayList<AbstractGameObject> gameObjects = new ArrayList<>();
+    @Getter private ArrayList<AbstractGameObject> gameObjects = new ArrayList<>();
 
     private Map(String resourcePath) {
         this.mapResource = resourcePath;
@@ -46,7 +40,7 @@ public class Map implements Serializable {
     @SneakyThrows
     private void initMap(String resourcePath) {
         String map = new String(getClass().getResourceAsStream(resourcePath).readAllBytes(), StandardCharsets.UTF_8);
-        System.out.println(map);
+        PixieOffice.getPixieOffice().getLogger().info("Map: {}", map);
         String[] rows = map.split("\n");
         int y = 0;
         for (String row : rows) {

@@ -4,7 +4,9 @@ import com.github.queerzard.pixieoffice.config.GameConfig;
 import com.github.queerzard.pixieoffice.game.GameWindow;
 import com.github.queerzard.pixieoffice.game.entity.player.PlayerEntity;
 import com.github.queerzard.pixieoffice.game.event.entity.EntityMovementEvent;
+import com.github.queerzard.pixieoffice.game.event.entity.player.input.PlayerMouseClickEvent;
 import com.github.queerzard.pixieoffice.game.event.render.PrePaintingRender;
+import com.github.queerzard.pixieoffice.game.listeners.MouseClickListener;
 import com.github.queerzard.pixieoffice.game.listeners.MovementListener;
 import com.github.queerzard.pixieoffice.game.listeners.PaintingListener;
 import com.github.queerzard.pixieoffice.game.loop.GameLoop;
@@ -26,38 +28,21 @@ import java.util.concurrent.TimeUnit;
 
 public class PixieOffice {
 
-    @Getter
-    @Setter
-    private GameWindow gameWindow;
-    @Getter
-    @Setter
-    private JFrame gameFrame;
-    @Getter
-    @Setter
-    private GameLoop gameLoop;
-    @Getter
-    @Setter
-    private GameConfig gameConfig;
+    @Getter @Setter private GameWindow gameWindow;
 
-    @Getter
-    @Setter
-    private PlayerEntity gamePlayer;
-    @Getter
-    @Setter
-    private Map map;
-    @Getter
-    @Setter
-    private ControlsHandler controlsHandler = new ControlsHandler();
-    @Getter
-    @Setter
-    private TextureCache textureCache;
+    @Getter @Setter private JFrame gameFrame;
 
-    @Getter
-    @Setter
-    private Logger logger;
-    @Getter
-    @Setter
-    private static PixieOffice pixieOffice;
+    @Getter @Setter private GameLoop gameLoop;
+    @Getter @Setter private GameConfig gameConfig;
+
+    @Getter @Setter private PlayerEntity gamePlayer;
+
+    @Getter @Setter private Map map;
+    @Getter @Setter private ControlsHandler controlsHandler = new ControlsHandler();
+    @Getter @Setter private TextureCache textureCache;
+
+    @Getter @Setter private Logger logger;
+    @Getter @Setter private static PixieOffice pixieOffice;
 
     @SneakyThrows
     public PixieOffice() {
@@ -92,8 +77,7 @@ public class PixieOffice {
         AsyncExecutor.task(2100L, new IAsyncTask() {
             @Override
             public Object runAsync() {
-                while (map == null) {
-                }
+                while (map == null) {}
                 PixieOffice.getPixieOffice().setGamePlayer(new PlayerEntity(map, textureCache.getTexture(ETextures.JASMIN), "Jasmin", 10, 2, map.getSpawnpoint()[0], map.getSpawnpoint()[1], 100));
                 return null;
             }
@@ -104,6 +88,7 @@ public class PixieOffice {
     private void initEvents() {
         new JEvent(new PrePaintingRender()).registerListener(new PaintingListener());
         new JEvent(new EntityMovementEvent()).registerListener(new MovementListener());
+        new JEvent(new PlayerMouseClickEvent()).registerListener(new MouseClickListener());
     }
 
     private void initLoop() {

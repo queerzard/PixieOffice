@@ -23,4 +23,10 @@ public class WoodPlankObject extends AbstractGameObject implements Collidable {
         return new Rectangle(getPosX(), getPosY(), PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize(),
                 PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize());
     }
+
+/*    @Override
+    public Rectangle clickableArea() {
+        return new Rectangle(getPosX(), getPosY(), PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize(),
+                PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize());
+    }*/
 }

@@ -6,9 +6,7 @@ import lombok.Getter;
 import java.awt.*;
 
 public class PrePaintingRender extends Event {
-
-    @Getter
-    private Graphics2D graphics;
+    @Getter private Graphics2D graphics;
 
     public PrePaintingRender() {
     }

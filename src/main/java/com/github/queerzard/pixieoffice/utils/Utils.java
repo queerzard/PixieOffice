@@ -24,6 +24,18 @@ public class Utils {
         }
     }
 
+    public static int getRadialDistance(int fromX, int fromY, int toX, int toY) {
+        // Calculate the differences in X and Y coordinates
+        int deltaX = toX - fromX;
+        int deltaY = toY - fromY;
+
+        // Use the Pythagorean theorem to calculate the distance
+        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        // Return the distance as an integer
+        return (int) Math.round(distance);
+    }
+
     public static Object parseObject(byte[] data) {
         Object object;
         try {

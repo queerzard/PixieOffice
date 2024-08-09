@@ -13,12 +13,9 @@ import java.util.Properties;
  * It's a class that allows you to easily read and write to a properties file
  */
 public abstract class AbstractProperties implements IDefaults {
-    @Getter
-    private final String fileName;
-    @Getter
-    private final File file;
-    @Getter
-    private final Properties properties = new Properties();
+    @Getter private final String fileName;
+    @Getter private final File file;
+    @Getter private final Properties properties = new Properties();
 
 
     public AbstractProperties(String fileName) {

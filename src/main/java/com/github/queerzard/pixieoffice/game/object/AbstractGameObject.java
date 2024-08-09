@@ -14,29 +14,17 @@ import java.util.Arrays;
 
 public abstract class AbstractGameObject {
 
-    @Getter
-    private int posX;
-    @Getter
-    private int posY;
+    @Getter private int posX;
+    @Getter private int posY;
 
-    @Getter
-    @Setter
-    private int zIndex;
+    @Getter @Setter private int zIndex;
 
-    @Getter
-    @Setter
-    private int worldX = 0;
-    @Getter
-    @Setter
-    private int worldY = 0;
+    @Getter @Setter private int worldX = 0;
+    @Getter @Setter private int worldY = 0;
 
+    @Getter private Map map;
 
-    @Getter
-    private Map map;
-
-    @Getter
-    @Setter
-    private Texture texture;
+    @Getter @Setter private Texture texture;
 
     public AbstractGameObject(Map map, Texture texture, int defX, int defY, int zIndex) {
         this.map = map;

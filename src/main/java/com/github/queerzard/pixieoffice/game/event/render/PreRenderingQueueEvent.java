@@ -6,8 +6,7 @@ import lombok.Getter;
 
 public class PreRenderingQueueEvent extends Event {
 
-    @Getter
-    private AbstractGameObject gameObject;
+    @Getter private AbstractGameObject gameObject;
 
     public PreRenderingQueueEvent() {
     }

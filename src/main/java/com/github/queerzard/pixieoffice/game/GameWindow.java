@@ -12,30 +12,19 @@ import java.awt.*;
 
 public class GameWindow extends JPanel {
 
-    @Getter
-    private final int originalTileSize = 16;
-    @Getter
-    private int scaleFactor = 3;
-    @Getter
-    private int rescaledTileSize = originalTileSize * scaleFactor;
+    @Getter private final int originalTileSize = 16;
+    @Getter private int scaleFactor = 3;
+    @Getter private int rescaledTileSize = originalTileSize * scaleFactor;
 
-    @Getter
-    private final int displayColumns = 18;
-    @Getter
-    private final int displayRows = 10;
-    @Getter
-    private final int displayWidth = displayColumns * rescaledTileSize;
-    @Getter
-    private final int displayHeight = displayRows * rescaledTileSize;
+    @Getter private final int displayColumns = 18;
+    @Getter private final int displayRows = 10;
+    @Getter private final int displayWidth = displayColumns * rescaledTileSize;
+    @Getter private final int displayHeight = displayRows * rescaledTileSize;
 
-    @Getter
-    private final int maxWorldColumns = 60;
-    @Getter
-    private final int maxWorldRows = 60;
-    @Getter
-    private final int worldWidth = rescaledTileSize * maxWorldColumns;
-    @Getter
-    private final int worldHeight = rescaledTileSize * maxWorldRows;
+    @Getter private final int maxWorldColumns = 60;
+    @Getter private final int maxWorldRows = 60;
+    @Getter private final int worldWidth = rescaledTileSize * maxWorldColumns;
+    @Getter private final int worldHeight = rescaledTileSize * maxWorldRows;
 
 
     public GameWindow(ControlsHandler controlsHandler) {
@@ -43,6 +32,7 @@ public class GameWindow extends JPanel {
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(controlsHandler);
+        this.addMouseListener(controlsHandler);
         this.setFocusable(true);
     }
 

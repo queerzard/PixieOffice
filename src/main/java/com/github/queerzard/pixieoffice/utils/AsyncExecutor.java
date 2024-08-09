@@ -6,13 +6,10 @@ import lombok.SneakyThrows;
 public abstract class AsyncExecutor implements Runnable, IAsyncTask {
 
 
-    @Getter
-    private Thread thread;
-    @Getter
-    private Object returnValue;
+    @Getter private Thread thread;
+    @Getter private Object returnValue;
 
-    @Getter
-    private long delayInMillis = 0L;
+    @Getter private long delayInMillis = 0L;
 
     public AsyncExecutor(long delayInMillis) {
         this.delayInMillis = delayInMillis;

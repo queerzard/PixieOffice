@@ -6,8 +6,7 @@ import lombok.Getter;
 
 public class EntityMovementEvent extends Event {
 
-    @Getter
-    private GameEntity entity;
+    @Getter private GameEntity entity;
 
     public EntityMovementEvent() {
     }

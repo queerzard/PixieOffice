@@ -9,9 +9,7 @@ import lombok.Setter;
 
 public class PlayerEntity extends GameEntity {
 
-    @Getter
-    @Setter
-    private String name;
+    @Getter @Setter private String name;
 
     public PlayerEntity(Map map, Texture texture, String name, int health, int speed, int posX, int posY, int z) {
         super(map, texture, health, speed, posX, posY, z);

@@ -8,15 +8,9 @@ import java.util.HashMap;
 
 public class Texture {
 
-    @Getter
-    @Setter
-    private Image texture;
-    @Getter
-    @Setter
-    private Image defaultTexture;
-    @Getter
-    @Setter
-    private HashMap<String, Image> textureCache;
+    @Getter @Setter private Image texture;
+    @Getter @Setter private Image defaultTexture;
+    @Getter @Setter private HashMap<String, Image> textureCache;
 
     public Texture(Image defaultTexture, HashMap<String, Image> textures) {
         this.defaultTexture = defaultTexture;

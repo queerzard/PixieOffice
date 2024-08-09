@@ -1,9 +1,11 @@
 package com.github.queerzard.pixieoffice.game.entity;
 
+import com.github.queerzard.pixieoffice.game.event.entity.player.PlayerCollisionEvent;
 import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
 import com.github.queerzard.pixieoffice.game.object.Collidable;
 import com.github.queerzard.pixieoffice.game.object.map.Map;
 import com.github.queerzard.pixieoffice.game.texture.Texture;
+import com.github.sebyplays.jevent.JEvent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,23 +14,14 @@ import java.util.HashMap;
 
 public class GameEntity extends AbstractGameObject implements Collidable {
 
-    @Getter
-    @Setter
-    private int health;
-    @Getter
-    @Setter
-    private int speed;
+    @Getter @Setter private int health;
+    @Getter @Setter private int speed;
 
-    @Getter
-    @Setter
-    private EDirection facing = EDirection.SOUTH;
+    @Getter @Setter private EDirection facing = EDirection.SOUTH;
 
-    @Getter
-    private Rectangle bounds;
+    @Getter private Rectangle bounds;
 
-    @Getter
-    @Setter
-    private HashMap<String, Object> attributes;
+    @Getter @Setter private HashMap<String, Object> attributes;
 
     public GameEntity(Map map, Texture texture, int health, int speed, int posX, int posY, int z) {
         super(map, texture, posX, posY, z);
@@ -96,8 +89,11 @@ public class GameEntity extends AbstractGameObject implements Collidable {
         for (AbstractGameObject obj : getMap().getGameObjects()) {
             if (obj instanceof Collidable && ((Collidable) obj).isCollidable()) {
                 Rectangle objBounds = ((Collidable) obj).solidArea();
-                if (newBounds.intersects(objBounds))
-                    return true;
+                if (newBounds.intersects(objBounds)) {
+                    PlayerCollisionEvent pce = (PlayerCollisionEvent) new JEvent(new PlayerCollisionEvent((Collidable) obj, newX, newY, newBounds)).callEvent().getEvent();
+                    pce.setCancelled(false);
+                    return !pce.isCancelled();
+                }
             }
         }
         return false;

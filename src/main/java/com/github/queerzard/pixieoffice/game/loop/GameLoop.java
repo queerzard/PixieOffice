@@ -6,8 +6,7 @@ import lombok.Getter;
 public abstract class GameLoop implements Runnable, ILoop {
 
     private boolean alive = true;
-    @Getter
-    private Thread thread;
+    @Getter private Thread thread;
 
     public GameLoop() {
         this.thread = new Thread(this);

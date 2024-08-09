@@ -4,8 +4,9 @@ import com.github.queerzard.pixieoffice.PixieOffice;
 import com.github.queerzard.pixieoffice.game.entity.player.PlayerEntity;
 import com.github.queerzard.pixieoffice.game.event.render.PreRenderingQueueEvent;
 import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
-import com.github.queerzard.pixieoffice.game.object.VisuallyUnadjusted;
+import com.github.queerzard.pixieoffice.game.object.StaticElement;
 import com.github.sebyplays.jevent.JEvent;
+import lombok.Getter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,11 +15,11 @@ import java.util.Comparator;
 
 public class RenderingQueue {
 
-    private static ArrayList<AbstractGameObject> queue = new ArrayList<>();
+    @Getter private static ArrayList<AbstractGameObject> bareQueue = new ArrayList<>();
 
 
     public static ArrayList<AbstractGameObject> getQueue() {
-        ArrayList<AbstractGameObject> ordered = new ArrayList<>(queue);
+        ArrayList<AbstractGameObject> ordered = new ArrayList<>(bareQueue);
 
         // Use Collections.sort with a custom comparator to sort by z index
         Collections.sort(ordered, new Comparator<AbstractGameObject>() {
@@ -27,7 +28,7 @@ public class RenderingQueue {
                 return Integer.compare(o1.getZIndex(), o2.getZIndex());
             }
         });
-        queue.clear();
+        bareQueue.clear();
 
         if (PixieOffice.getPixieOffice().getGamePlayer() == null)
             return ordered;
@@ -43,7 +44,7 @@ public class RenderingQueue {
 
         ArrayList<AbstractGameObject> visibleObjects = new ArrayList<>();
         for (AbstractGameObject obj : ordered) {
-            if (obj instanceof VisuallyUnadjusted) {
+            if (obj instanceof StaticElement) {
                 visibleObjects.add(obj);
                 continue;
             }
@@ -94,7 +95,7 @@ public class RenderingQueue {
 
     public static void addGameObject(AbstractGameObject gameObject) {
         if (!(new JEvent(new PreRenderingQueueEvent(gameObject)).callEvent().getEvent().isCancelled()))
-            queue.add(gameObject);
+            bareQueue.add(gameObject);
     }
 
 }
