@@ -2,6 +2,7 @@ package com.github.queerzard.pixieoffice.game.entity;
 
 import com.github.queerzard.pixieoffice.game.object.AbstractGameObject;
 import com.github.queerzard.pixieoffice.game.object.Collidable;
+import com.github.queerzard.pixieoffice.game.object.map.Map;
 import com.github.queerzard.pixieoffice.game.texture.Texture;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,12 +18,6 @@ public class GameEntity extends AbstractGameObject implements Collidable {
     @Getter
     @Setter
     private int speed;
-    @Getter
-    @Setter
-    private int worldX = 100;
-    @Getter
-    @Setter
-    private int worldY = 100;
 
     @Getter
     @Setter
@@ -35,36 +30,46 @@ public class GameEntity extends AbstractGameObject implements Collidable {
     @Setter
     private HashMap<String, Object> attributes;
 
-    public GameEntity(Texture texture, int health, int speed, int posX, int posY, int z) {
-        super(texture, posX, posY, z);
+    public GameEntity(Map map, Texture texture, int health, int speed, int posX, int posY, int z) {
+        super(map, texture, posX, posY, z);
         this.attributes = new HashMap<>();
         this.health = health;
         this.speed = speed;
+        setWorldX(map.getSpawnpoint()[0]);
+        setWorldY(map.getSpawnpoint()[1]);
         bounds = new Rectangle(posX, posY, 48, 48);
     }
 
     public void up() {
+        if (checkCollision(getPosX(), getPosY() - speed))
+            return;
         getTexture().setActive("up");
         facing = EDirection.NORTH;
-        setWorldY(worldX - speed);
+        setPosY(getPosY() - speed);
     }
 
     public void down() {
+        if (checkCollision(getPosX(), getPosY() + speed))
+            return;
         getTexture().setActive("down");
         facing = EDirection.SOUTH;
-        setWorldY(worldY + speed);
+        setPosY(getPosY() + speed);
     }
 
     public void left() {
+        if (checkCollision(getPosX() - speed, getPosY()))
+            return;
         getTexture().setActive("left");
         facing = EDirection.WEST;
-        setWorldX(worldX - speed);
+        setPosX(getPosX() - speed);
     }
 
     public void right() {
+        if (checkCollision(getPosX() + speed, getPosY()))
+            return;
         getTexture().setActive("right");
         facing = EDirection.EAST;
-        setWorldX(worldX + speed);
+        setPosX(getPosX() + speed);
     }
 
     public void upIdle() {
@@ -83,13 +88,29 @@ public class GameEntity extends AbstractGameObject implements Collidable {
         getTexture().setActive("right_idle");
     }
 
+    public void teleport(int x, int y) {
+    }
+
+    private boolean checkCollision(int newX, int newY) {
+        Rectangle newBounds = new Rectangle(newX + 8, newY + 16, 32, 32);
+        for (AbstractGameObject obj : getMap().getGameObjects()) {
+            if (obj instanceof Collidable && ((Collidable) obj).isCollidable()) {
+                Rectangle objBounds = ((Collidable) obj).solidArea();
+                if (newBounds.intersects(objBounds))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+
     @Override
     public boolean isCollidable() {
-        return false;
+        return true;
     }
 
     @Override
     public Rectangle solidArea() {
-        return null;
+        return new Rectangle(getPosX() + 8, getPosY() + 16, 32, 32);
     }
 }

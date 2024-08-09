@@ -89,12 +89,12 @@ public class PixieOffice {
         };
         setMap(Map.loadMap("/assets/maps/map1.txt"));
 
-        AsyncExecutor.task(4000L, new IAsyncTask() {
+        AsyncExecutor.task(2100L, new IAsyncTask() {
             @Override
             public Object runAsync() {
                 while (map == null) {
                 }
-                PixieOffice.getPixieOffice().setGamePlayer(new PlayerEntity(textureCache.getTexture(ETextures.JASMIN), "Jasmin", 10, 2, map.getSpawnpoint()[0], map.getSpawnpoint()[1], 100));
+                PixieOffice.getPixieOffice().setGamePlayer(new PlayerEntity(map, textureCache.getTexture(ETextures.JASMIN), "Jasmin", 10, 2, map.getSpawnpoint()[0], map.getSpawnpoint()[1], 100));
                 return null;
             }
         });

@@ -3,6 +3,7 @@ package com.github.queerzard.pixieoffice.game.object;
 import com.github.queerzard.pixieoffice.PixieOffice;
 import com.github.queerzard.pixieoffice.game.entity.GameEntity;
 import com.github.queerzard.pixieoffice.game.event.entity.EntityMovementEvent;
+import com.github.queerzard.pixieoffice.game.object.map.Map;
 import com.github.queerzard.pixieoffice.game.texture.Texture;
 import com.github.sebyplays.jevent.JEvent;
 import lombok.Getter;
@@ -24,9 +25,21 @@ public abstract class AbstractGameObject {
 
     @Getter
     @Setter
+    private int worldX = 0;
+    @Getter
+    @Setter
+    private int worldY = 0;
+
+
+    @Getter
+    private Map map;
+
+    @Getter
+    @Setter
     private Texture texture;
 
-    public AbstractGameObject(Texture texture, int defX, int defY, int zIndex) {
+    public AbstractGameObject(Map map, Texture texture, int defX, int defY, int zIndex) {
+        this.map = map;
         this.posX = defX;
         this.posY = defY;
         this.zIndex = zIndex;

@@ -1,8 +1,8 @@
 package com.github.queerzard.pixieoffice.game.entity.player;
 
 import com.github.queerzard.pixieoffice.PixieOffice;
-import com.github.queerzard.pixieoffice.game.entity.EDirection;
 import com.github.queerzard.pixieoffice.game.entity.GameEntity;
+import com.github.queerzard.pixieoffice.game.object.map.Map;
 import com.github.queerzard.pixieoffice.game.texture.Texture;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +13,8 @@ public class PlayerEntity extends GameEntity {
     @Setter
     private String name;
 
-    public PlayerEntity(Texture texture, String name, int health, int speed, int posX, int posY, int z) {
-        super(texture, health, speed, posX, posY, z);
+    public PlayerEntity(Map map, Texture texture, String name, int health, int speed, int posX, int posY, int z) {
+        super(map, texture, health, speed, posX, posY, z);
         this.name = name;
     }
 
@@ -42,34 +42,22 @@ public class PlayerEntity extends GameEntity {
         }
 
         if (PixieOffice.getPixieOffice().getControlsHandler().isUpPressed()) {
-            getTexture().setActive("up");
-            setFacing(EDirection.NORTH);
-            if ((getPosY() - getSpeed() > 0))
-                setPosY(getPosY() - getSpeed());
+            up();
             return;
         }
 
         if (PixieOffice.getPixieOffice().getControlsHandler().isDownPressed()) {
-            getTexture().setActive("down");
-            setFacing(EDirection.SOUTH);
-            if (!(getPosY() + PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize() + getSpeed() > PixieOffice.getPixieOffice().getGameWindow().getDisplayHeight()))
-                setPosY(getPosY() + getSpeed());
+            down();
             return;
         }
 
         if (PixieOffice.getPixieOffice().getControlsHandler().isLeftPressed()) {
-            getTexture().setActive("left");
-            setFacing(EDirection.WEST);
-            if ((getPosX() - getSpeed() > 0))
-                setPosX(getPosX() - getSpeed());
+            left();
             return;
         }
 
         if (PixieOffice.getPixieOffice().getControlsHandler().isRightPressed()) {
-            getTexture().setActive("right");
-            setFacing(EDirection.EAST);
-            if (!(getPosX() + PixieOffice.getPixieOffice().getGameWindow().getRescaledTileSize() + getSpeed() > PixieOffice.getPixieOffice().getGameWindow().getDisplayWidth()))
-                setPosX(getPosX() + getSpeed());
+            right();
             return;
         }
 

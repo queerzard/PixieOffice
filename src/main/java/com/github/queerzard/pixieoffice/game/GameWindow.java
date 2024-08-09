@@ -48,24 +48,14 @@ public class GameWindow extends JPanel {
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-
         Graphics2D graphics2D = (Graphics2D) graphics;
 
         new JEvent(new PrePaintingRender(graphics2D)).callEvent();
-
 
         for (AbstractGameObject abstractGameObject : RenderingQueue.getQueue())
 
             if (!new JEvent(new PreDrawingQueue(abstractGameObject, graphics2D)).callEvent().getEvent().isCancelled())
                 abstractGameObject.draw(graphics2D);
-
-/*        if (PixieOffice.getPixieOffice().getMap() != null) {
-            PixieOffice.getPixieOffice().getMap().draw(graphics2D);
-        } else {
-            PixieOffice.getPixieOffice().setMap(Map.loadMap("/assets/maps/map1.txt"));
-        }*/
-
-
 
         graphics2D.dispose();
     }
